@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/edit/{{play.id}}" method="post">
+    <div class="row">
+        <div class="col">
+            <label for="Name">Name</label>
+            <input id="Name" type="text" class="form-control" placeholder="Name" name="Name" value="{{play.Name}}">
+        </div>
+        <div class="col">
+            <label for="Team">Team</label>
+            <input id="Team" type="text" class="form-control" placeholder="Team" name="Team" value="{{play.Team}}">
+        </div>
+        <div class="col">
+            <label for="Position">Position</label>
+            <input id="Position" type="text" class="form-control" placeholder="Position" name="Position" value="{{play.Position}}">
+        </div>
+        <div class="col">
+            <label for="Height_inches">Height_inches</label>
+            <input id="Height_inches" type="text" class="form-control" placeholder="Height_inches" name="Height_inches" value="{{play.Height_inches}}">
+        </div>
+        <div class="col">
+            <label for="Weight_lbs">Weight_lbs</label>
+            <input id="Weight_lbs" type="text" class="form-control" placeholder="Weight_lbs" name="Weight_lbs" value="{{play.Weight_lbs}}">
+        </div>
+        <div class="col">
+            <label for="Age">Age</label>
+            <input id="Age" type="text" class="form-control" placeholder="Age"
+                   name="Age" value="{{play.Age}}">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+
+</form>
+{% endblock %}
