@@ -1,5 +1,5 @@
-CREATE DATABASE Players;
-use Players;
+CREATE DATABASE players;
+use players;
 
 CREATE TABLE IF NOT EXISTS Players (
     `id` int AUTO_INCREMENT,

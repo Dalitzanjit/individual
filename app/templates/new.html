@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/players/new" method="POST">
+    <div class="row">
+        <div class="col">
+            <label for="Name">Day of Week</label>
+            <input id="Name" type="text" class="form-control" placeholder="Name" name="Name">
+        </div>
+        <div class="col">
+            <label for="Team">Number of Crashes</label>
+            <input id="Team" type="text" class="form-control" placeholder="Team"
+                   name="Team">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+
+</form>
+
+{% endblock %}
