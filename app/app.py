@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Set, Dict, Tuple, Optional
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
@@ -8,11 +8,12 @@ from pymysql.cursors import DictCursor
 app = Flask(__name__)
 mysql = MySQL(cursorclass=DictCursor)
 
+
 app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
-app.config['MYSQL_DATABASE_DB'] = 'Players'
+app.config['MYSQL_DATABASE_DB'] = 'players'
 mysql.init_app(app)
 
 
@@ -44,7 +45,9 @@ def form_edit_get(player_id):
 @app.route('/edit/<int:player_id>', methods=['POST'])
 def form_update_post(player_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Name'), request.form.get('Team'), request.form.get('Position'), request.form.get('Height_inches'), request.form.get('Weight_lbs'), request.form.get('Age'), player_id)
+    inputData = (
+    request.form.get('Name'), request.form.get('Team'), request.form.get('Position'), request.form.get('Height_inches'),
+    request.form.get('Weight_lbs'), request.form.get('Age'), player_id)
     sql_update_query = """UPDATE Players t SET t.Name = %s, t.Team = %s, t.Position = %s, t.Height_inches = %s, 
     t.Weight_lbs = %s, t.Age = %s """
     cursor.execute(sql_update_query, inputData)
@@ -52,15 +55,17 @@ def form_update_post(player_id):
     return redirect("/", code=302)
 
 
-@app.route('/player/new', methods=['GET'])
+@app.route('/players/new', methods=['GET'])
 def form_insert_get():
     return render_template('new.html', title='New Player Form')
 
 
-@app.route('/player/new', methods=['POST'])
+@app.route('/players/new', methods=['POST'])
 def form_insert_post():
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Name'), request.form.get('Team'), request.form.get('Position'), request.form.get('Height_inches'), request.form.get('Weight_lbs'), request.form.get('Age'))
+    inputData = (
+    request.form.get('Name'), request.form.get('Team'), request.form.get('Position'), request.form.get('Height_inches'),
+    request.form.get('Weight_lbs'), request.form.get('Age'))
     sql_insert_query = """INSERT INTO Players (Name,Team,Position,Height_inches,Weight_lbs,Age) VALUES (%s, %s, %s, %s, %s, %s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
@@ -100,7 +105,8 @@ def api_retrieve(player_id) -> str:
 def api_edit(player_id) -> str:
     cursor = mysql.get_db().cursor()
     content = request.json
-    inputData = (content['Name'], content['Team'], content['Position'], content['Height_inches'], content['Weight_lbs'], content['Age'], player_id)
+    inputData = (content['Name'], content['Team'], content['Position'], content['Height_inches'], content['Weight_lbs'],
+                 content['Age'], player_id)
     sql_update_query = """UPDATE Players t SET t.Name = %s, t.Team = %s, t.Position = %s, t.Height_inches = %s, 
     t.Weight_lbs = %s, t.Age = %s """
     cursor.execute(sql_update_query, inputData)
@@ -111,7 +117,6 @@ def api_edit(player_id) -> str:
 
 @app.route('/api/v1/players', methods=['POST'])
 def api_add() -> str:
-
     content = request.json
 
     cursor = mysql.get_db().cursor()
